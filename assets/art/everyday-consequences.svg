@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc">
+<title id="title">SAFETY NOW</title><desc id="desc">A surveillance tower stands beside a warning sign.</desc>
+<defs><pattern id="print" width="19" height="17" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.1" fill="#25291f" opacity=".18"/><circle cx="14" cy="13" r=".8" fill="#eee6d2" opacity=".45"/></pattern></defs>
+<rect width="720" height="460" fill="#4aa9bd"/>
+<path d="M0 0h104l-5 34 7 38-5 36 8 45-6 41 7 46-7 40 5 44-7 43 6 44-5 49H0Z" fill="#25291f"/>
+<path d="M117 67 690 29v365l-573 42Z" fill="#eee6d2" opacity=".34"/>
+<rect width="720" height="460" fill="url(#print)"/>
+<path d="m153 78 34-19m-20 31 42-24M591 378l40 20m-20-31 42 18" fill="none" stroke="#25291f" stroke-width="4" opacity=".7"/>
+<g transform="translate(190 73) rotate(-3 200 150)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><path d="m75 305 95-248 96 248Z" fill="#eee6d2"/><path d="M105 226h130M126 170h88M149 112h42M171 57V8m-57 78Q41 39 21 93m260-7q73-47 94 7M94 53Q22 5 0 58m302-5q72-48 98 5" fill="none"/><path d="M298 175h86l-43 101Z" fill="#793e46"/><path d="M341 192v38m0 22v3" fill="none" stroke="#eee6d2" stroke-width="12"/></g>
+</svg>

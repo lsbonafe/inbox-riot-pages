@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc">
+<title id="title">CHECK THE AGENT</title><desc id="desc">A watchful eye and a padlock stand for checking an agent’s actions.</desc>
+<defs><pattern id="print" width="19" height="17" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.1" fill="#25291f" opacity=".18"/><circle cx="14" cy="13" r=".8" fill="#eee6d2" opacity=".45"/></pattern></defs>
+<rect width="720" height="460" fill="#4aa9bd"/>
+<path d="M0 0h104l-5 34 7 38-5 36 8 45-6 41 7 46-7 40 5 44-7 43 6 44-5 49H0Z" fill="#25291f"/>
+<path d="M117 67 690 29v365l-573 42Z" fill="#31899c" opacity=".34"/>
+<rect width="720" height="460" fill="url(#print)"/>
+<path d="m153 78 34-19m-20 31 42-24M591 378l40 20m-20-31 42 18" fill="none" stroke="#25291f" stroke-width="4" opacity=".7"/>
+<g transform="translate(190 73) rotate(-3 200 150)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><path d="M25 155Q200-5 375 155Q200 315 25 155Z" fill="#eee6d2"/><circle cx="200" cy="155" r="65" fill="#b2a15a"/><circle cx="200" cy="155" r="26" fill="#25291f"/><path d="M280 208v-35q0-35 34-35t34 35v35" fill="none"/><rect x="269" y="202" width="91" height="76" fill="#793e46"/><path d="M314 220v38"/></g>
+</svg>

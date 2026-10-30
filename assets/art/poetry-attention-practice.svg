@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc">
+<title id="title">STAY WITH IT</title><desc id="desc">An eye appears in the middle of a marked-up poem.</desc>
+<defs><pattern id="print" width="19" height="17" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.1" fill="#25291f" opacity=".18"/><circle cx="14" cy="13" r=".8" fill="#eee6d2" opacity=".45"/></pattern></defs>
+<rect width="720" height="460" fill="#4aa9bd"/>
+<path d="M0 0h104l-5 34 7 38-5 36 8 45-6 41 7 46-7 40 5 44-7 43 6 44-5 49H0Z" fill="#25291f"/>
+<path d="M117 67 690 29v365l-573 42Z" fill="#eee6d2" opacity=".34"/>
+<rect width="720" height="460" fill="url(#print)"/>
+<path d="m153 78 34-19m-20 31 42-24M591 378l40 20m-20-31 42 18" fill="none" stroke="#25291f" stroke-width="4" opacity=".7"/>
+<g transform="translate(190 73) rotate(-3 200 150)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><path d="M68 18h249l22 260-31-14-29 14-31-14-31 14-30-14-31 14-30-14-31 14Z" fill="#eee6d2"/><path d="M103 70h153m-153 34h111m-111 34h166m-166 34h122" fill="none"/><path d="M149 229q54-58 111 0-57 58-111 0Z" fill="#b2a15a"/><circle cx="205" cy="229" r="18" fill="#793e46"/></g>
+</svg>
