@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+  <title id="title">The machine has hands</title>
+  <desc id="desc">A cut-paper mechanical hand reaches through a field of circuits and ochre warning marks.</desc>
+  <defs>
+    <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2" fill="#eee6d2" opacity=".27"/></pattern>
+    <pattern id="hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="14" fill="#b2a15a"/><rect width="4" height="14" fill="#25291f"/></pattern>
+  </defs>
+  <rect width="1200" height="390" fill="#25291f"/>
+  <path d="M0 318 1200 124v266H0Z" fill="#4aa9bd"/>
+  <path d="M0 332 1200 138" fill="none" stroke="#eee6d2" stroke-width="7"/>
+  <rect x="0" y="0" width="1200" height="390" fill="url(#dots)"/>
+  <path d="M0 55h303l40 34h119m-462 49h228l50 46h179m-457 51h196l47 35h197" fill="none" stroke="#b2a15a" stroke-width="9" stroke-linejoin="bevel"/>
+  <g fill="#b2a15a" stroke="#25291f" stroke-width="5"><circle cx="463" cy="89" r="14"/><circle cx="458" cy="184" r="14"/><circle cx="440" cy="270" r="14"/></g>
+  <g transform="translate(575 25) rotate(-8 240 170)" stroke="#25291f" stroke-width="7" stroke-linejoin="bevel">
+    <path d="M172 341 130 245 95 184q-14-27 10-39 21-9 36 13l44 55V53q0-29 27-29t27 29v113h15V22q0-27 27-27t27 27v144h16V36q0-27 27-27t27 27v140h15V72q0-26 26-26t26 26v189l-53 80Z" fill="#eee6d2"/>
+    <path d="M185 166v46m54-46v46m69-46v46m68-36v43" stroke="#4aa9bd" stroke-width="13"/>
+    <path d="M155 256h285l-37 85H172Z" fill="url(#hatch)"/>
+    <path d="M280 221c-27 0-48 19-48 43s21 43 48 43 48-19 48-43-21-43-48-43Z" fill="#4aa9bd"/>
+    <circle cx="280" cy="264" r="21" fill="#25291f" stroke="#eee6d2"/>
+  </g>
+  <g fill="none" stroke="#eee6d2" stroke-width="10"><path d="m1055 30 28 28m0-28-28 28"/><path d="m80 308 28 28m0-28-28 28"/></g>
+  <path d="m1081 206 17 26 30-45" fill="none" stroke="#b2a15a" stroke-width="11" stroke-linecap="square"/>
+  <rect x="30" y="22" width="240" height="43" fill="#eee6d2" transform="rotate(-4 30 22)"/>
+  <text x="49" y="49" fill="#25291f" font-family="monospace" font-size="24" font-weight="900" letter-spacing="4" transform="rotate(-4 30 22)">ISSUE 01 / RIOT</text>
+</svg>
