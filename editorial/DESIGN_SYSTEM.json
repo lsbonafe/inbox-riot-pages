@@ -1,0 +1,31 @@
+{
+  "name": "Worn Record Sleeve",
+  "palette": {
+    "ink": "#25291f",
+    "paper": "#eee6d2",
+    "cyan": "#4aa9bd",
+    "cyanDeep": "#31899c",
+    "ochre": "#b2a15a",
+    "oxblood": "#793e46",
+    "muted": "#665f52"
+  },
+  "type": {
+    "display": "Georgia, 'Times New Roman', serif",
+    "reading": "Georgia, 'Times New Roman', serif",
+    "utility": "'DM Mono', monospace",
+    "hand": "Caveat, cursive"
+  },
+  "art": {
+    "mood": "Wry, nocturnal, a little decadent, and knowingly imperfect.",
+    "medium": "Worn ink on colored paper, distressed print, loose hand-drawn marks, generous negative space.",
+    "avoid": ["generic robots", "plastic gradients", "comic-style explosions", "decorative Japanese text", "repeated site badges", "unnecessary original-art labels"],
+    "templates": ["full-bleed", "split-paper", "cutout-field", "night-window"],
+    "paletteSets": {
+      "cyan-ink": { "background": "#4aa9bd", "light": "#eee6d2", "mid": "#b2a15a", "accent": "#793e46", "dark": "#25291f" },
+      "copper": { "background": "#c27b58", "light": "#f0dfbd", "mid": "#d7ad73", "accent": "#496f79", "dark": "#25291f" },
+      "lilac": { "background": "#a394ad", "light": "#f1e5cf", "mid": "#d8b77e", "accent": "#744f63", "dark": "#25291f" },
+      "olive": { "background": "#afb679", "light": "#f4e8cf", "mid": "#d2ae63", "accent": "#8d4b4d", "dark": "#25291f" },
+      "slate": { "background": "#789ba5", "light": "#f2e8d4", "mid": "#d4ad69", "accent": "#a45e4d", "dark": "#25291f" }
+    }
+  }
+}

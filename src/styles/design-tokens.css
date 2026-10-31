@@ -1,0 +1,14 @@
+/* Generated from editorial/DESIGN_SYSTEM.json. */
+:root {
+  --ink: #25291f;
+  --paper: #eee6d2;
+  --cyan: #4aa9bd;
+  --cyan-deep: #31899c;
+  --ochre: #b2a15a;
+  --oxblood: #793e46;
+  --muted: #665f52;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-reading: Georgia, 'Times New Roman', serif;
+  --font-utility: 'DM Mono', monospace;
+  --font-hand: Caveat, cursive;
+}

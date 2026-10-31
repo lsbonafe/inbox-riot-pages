@@ -1,0 +1,27 @@
+name: Validate reusable zine engine
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      INBOX_RIOT_CONFIG: config/example.json
+      INBOX_RIOT_ISSUES_DIR: tests/fixtures/issues
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run check
+      - run: npm run build

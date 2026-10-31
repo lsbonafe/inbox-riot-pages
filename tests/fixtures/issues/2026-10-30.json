@@ -1,0 +1,99 @@
+{
+  "title": "A Test Dispatch From the Future",
+  "date": "2026-10-30",
+  "edition": 1,
+  "dek": "A synthetic edition for checking the shape, links, and visual rhythm of the site.",
+  "editorNote": "This is test content. No private mail was used to make it.",
+  "leadTopics": [
+    {
+      "id": "the-big-idea",
+      "title": "The big idea",
+      "claim": "A claim should be backed by a readable source.",
+      "whyItMatters": "The reader can choose where to spend attention.",
+      "uncertainty": "The synthetic source cannot establish a real-world trend.",
+      "storyIds": [
+        "a-big-idea"
+      ],
+      "takeaway": "The example source supports a limited conclusion, and the reader should look at its evidence before acting. The useful next step is to compare that claim with another source and decide what remains uncertain.",
+      "image": {
+        "kind": "original",
+        "src": "assets/example-art.svg",
+        "alt": "A cut-paper mechanical hand",
+        "credit": "Example Zine",
+        "rights": "Original editorial artwork"
+      }
+    },
+    {
+      "id": "small-signals",
+      "title": "Small signals",
+      "claim": "An email-only source can still support a limited observation.",
+      "whyItMatters": "Useful evidence should not disappear because it lacks a public URL.",
+      "uncertainty": "The full context is unavailable outside the email.",
+      "storyIds": [
+        "one-small-signal"
+      ],
+      "takeaway": "The example source supports a limited conclusion, and the reader should look at its evidence before acting. The useful next step is to compare that claim with another source and decide what remains uncertain.",
+      "image": {
+        "kind": "original",
+        "src": "assets/example-art.svg",
+        "alt": "A cut-paper mechanical hand",
+        "credit": "Example Zine",
+        "rights": "Original editorial artwork"
+      }
+    }
+  ],
+  "stories": [
+    {
+      "id": "a-big-idea",
+      "section": "reads",
+      "sourceLanguage": "en",
+      "headline": "A big idea deserves more than a subject line",
+      "sourceName": "Example Journal",
+      "sourceUrl": "https://example.org/a-big-idea",
+      "relatedLinks": [
+        {
+          "label": "Underlying study",
+          "url": "https://example.org/a-study"
+        }
+      ],
+      "takeaways": [
+        "The main claim is stated plainly and backed by a source.",
+        "A second point explains the practical consequence."
+      ],
+      "whyItMatters": "Readers can decide whether the full article is worth their time.",
+      "excerpt": "A short quotation could appear here when justified and credited.",
+      "image": {
+        "kind": "original",
+        "src": "assets/example-art.svg",
+        "alt": "A cut-paper mechanical hand",
+        "credit": "Example Zine",
+        "rights": "Original editorial artwork"
+      }
+    },
+    {
+      "id": "one-small-signal",
+      "section": "signals",
+      "treatment": "brief",
+      "headline": "One small signal in a noisy week",
+      "sourceName": "Example Weekly",
+      "emailReference": "Example Weekly, 30 October 2026",
+      "relatedLinks": [
+        {
+          "label": "Public background",
+          "url": "https://example.org/background"
+        }
+      ],
+      "takeaways": [
+        "Email-only items can still receive a useful, specific takeaway."
+      ],
+      "whyItMatters": "The source is clearly identified without exposing a private mailbox link.",
+      "image": {
+        "kind": "original",
+        "src": "assets/example-art.svg",
+        "alt": "A cut-paper mechanical hand",
+        "credit": "Example Zine",
+        "rights": "Original editorial artwork"
+      }
+    }
+  ]
+}

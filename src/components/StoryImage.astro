@@ -1,0 +1,17 @@
+---
+interface Props {
+  image: { kind: 'original' | 'source'; src: string; alt: string; credit: string };
+  base: string;
+  sourceUrl?: string;
+  className?: string;
+}
+const { image, base, sourceUrl, className } = Astro.props;
+const src = image.kind === 'source' ? image.src : `${base}${image.src.replace(/^\//, '')}`;
+---
+
+<figure class={className}>
+  {image.kind === 'source' && sourceUrl
+    ? <a href={sourceUrl} target="_blank" rel="noopener noreferrer"><img src={src} alt={image.alt} loading="lazy" decoding="async" referrerpolicy="no-referrer" /></a>
+    : <img src={src} alt={image.alt} loading="lazy" decoding="async" />}
+  {image.kind === 'source' && <figcaption>IMAGE: {image.credit}</figcaption>}
+</figure>

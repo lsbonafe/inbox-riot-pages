@@ -1,0 +1,34 @@
+{
+  "site": {
+    "title": "Example Zine",
+    "description": "A synthetic edition for testing the reusable site.",
+    "origin": "https://example.github.io",
+    "base": "/example-zine",
+    "language": "en"
+  },
+  "identity": {
+    "wordmarkFirst": "EXAMPLE",
+    "wordmarkAccent": "ZINE",
+    "editorName": "Example Editor",
+    "location": "Example City",
+    "established": "2026",
+    "portraitSrc": "assets/example-portrait.svg",
+    "portraitAlt": "Synthetic editor portrait"
+  },
+  "copy": {
+    "mastheadNote": "A SYNTHETIC ZINE",
+    "footerLabel": "EXAMPLE ZINE / READ THE SOURCE",
+    "footerNote": "Follow the links.",
+    "spineVolume": "VOL. 01",
+    "heroTopLeft": "EXAMPLE EDITION",
+    "heroTopRight": "READ THE GOOD PARTS",
+    "heroEyebrow": "EDITED BY EXAMPLE EDITOR",
+    "heroHeadlineFirst": "The example",
+    "heroHeadlineSecond": "edition.",
+    "heroDek": "A sample site made with synthetic content.",
+    "portraitCaption": "THE EXAMPLE EDITOR",
+    "heroBottomLeft": "READS / SIGNALS / RELEASES",
+    "heroBottomRight": "↓ THE CURRENT ISSUE"
+  },
+  "covers": {}
+}

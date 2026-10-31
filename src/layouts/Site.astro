@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import design from '../../editorial/DESIGN_SYSTEM.json';
+import { loadInstance } from '../../config/instance.mjs';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const instance = loadInstance();
+const base = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}`;
+---
+
+<!doctype html>
+<html lang={instance.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={design.palette.paper} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <title>{title === instance.site.title ? title : `${title} · ${instance.site.title}`}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="masthead">
+      <a class="wordmark" href={base} aria-label={`${instance.site.title} home`}>{instance.identity.wordmarkFirst} <span>{instance.identity.wordmarkAccent}</span></a>
+      <div class="masthead-right"><span>{instance.copy.mastheadNote}</span><span class="edition-mark">EST. {instance.identity.established}</span></div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="footer">
+      <span>{instance.copy.footerLabel}</span>
+      <span>{instance.copy.footerNote}</span>
+    </footer>
+  </body>
+</html>

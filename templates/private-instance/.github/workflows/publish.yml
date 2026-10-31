@@ -1,0 +1,85 @@
+name: Validate and publish zine
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: inbox-riot-publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out private instance
+        uses: actions/checkout@v4
+        with:
+          path: instance
+      - name: Require pinned public engine
+        env:
+          ENGINE_REF: ${{ vars.ENGINE_REF }}
+          PAGES_REPOSITORY: ${{ vars.PAGES_REPOSITORY }}
+        run: |
+          test "$ENGINE_REF" != ''
+          [[ "$ENGINE_REF" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$PAGES_REPOSITORY" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]
+          echo "ENGINE_REF=$ENGINE_REF" >> "$GITHUB_ENV"
+          echo "PAGES_REPOSITORY=$PAGES_REPOSITORY" >> "$GITHUB_ENV"
+      - name: Check out public engine
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.PAGES_REPOSITORY }}
+          ref: ${{ env.ENGINE_REF }}
+          path: engine
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: engine/package-lock.json
+      - name: Stage instance assets and validate engine
+        run: |
+          cp -R instance/public/. engine/public/
+          cd engine
+          npm ci
+          INBOX_RIOT_CONFIG=config/example.json INBOX_RIOT_ISSUES_DIR=tests/fixtures/issues npm test
+          rm public/assets/example-art.svg public/assets/example-portrait.svg
+          INBOX_RIOT_CONFIG="$GITHUB_WORKSPACE/instance/config/site.json" INBOX_RIOT_ISSUES_DIR="$GITHUB_WORKSPACE/instance/src/data/issues" npm run check
+          INBOX_RIOT_CONFIG="$GITHUB_WORKSPACE/instance/config/site.json" INBOX_RIOT_ISSUES_DIR="$GITHUB_WORKSPACE/instance/src/data/issues" npm run build
+      - name: Publish rendered site to gh-pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          PAGES_DEPLOY_KEY: ${{ secrets.PAGES_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$PAGES_DEPLOY_KEY"
+          install -d -m 700 "$HOME/.ssh"
+          key_file="$HOME/.ssh/inbox_riot_pages"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$PAGES_DEPLOY_KEY" > "$key_file"
+          chmod 600 "$key_file"
+          curl -fsSL https://api.github.com/meta | jq -r '.ssh_keys[] | "github.com " + .' > "$HOME/.ssh/known_hosts"
+          git_ssh_command="ssh -i $key_file -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+          mkdir "$RUNNER_TEMP/pages"
+          cd "$RUNNER_TEMP/pages"
+          git init -b gh-pages
+          git remote add origin "git@github.com:${PAGES_REPOSITORY}.git"
+          GIT_SSH_COMMAND="$git_ssh_command" git fetch origin gh-pages || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout -B gh-pages origin/gh-pages
+          fi
+          rsync -a --delete --exclude .git "$GITHUB_WORKSPACE/engine/dist/" ./
+          touch .nojekyll
+          git config user.name 'Zine publisher'
+          git config user.email 'zine-publisher@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish zine from ${GITHUB_SHA}"
+            GIT_SSH_COMMAND="$git_ssh_command" git push origin gh-pages
+          fi

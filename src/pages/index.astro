@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Site from '../layouts/Site.astro';
+import { loadInstance } from '../../config/instance.mjs';
+
+const issues = (await getCollection('issues')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const latest = issues[0];
+const instance = loadInstance();
+const base = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}`;
+---
+
+<Site title={instance.site.title} description={instance.site.description}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-spine" aria-hidden="true"><span>{instance.site.title.toUpperCase()}</span><span>{instance.copy.spineVolume} / {instance.identity.location.toUpperCase()}</span></div>
+    <div class="hero-sheet">
+      <div class="hero-top"><span>{instance.copy.heroTopLeft}</span><span>{instance.copy.heroTopRight}</span></div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">{instance.copy.heroEyebrow}</p>
+          <h1 id="hero-title">{instance.copy.heroHeadlineFirst}<br /><em>{instance.copy.heroHeadlineSecond}</em></h1>
+          <p class="hero-dek">{instance.copy.heroDek}</p>
+          {latest && <a class="hero-cta" href={`${base}issues/${latest.id}/`}>OPEN THE LATEST ISSUE <span aria-hidden="true">↗</span></a>}
+        </div>
+        <figure class="hero-portrait"><img src={`${base}${instance.identity.portraitSrc}`} alt={instance.identity.portraitAlt} width="1278" height="1230" fetchpriority="high" /><figcaption>{instance.copy.portraitCaption}</figcaption></figure>
+      </div>
+      <div class="hero-bottom"><span>{instance.copy.heroBottomLeft}</span><span>{instance.copy.heroBottomRight}</span></div>
+    </div>
+  </section>
+
+  <section class="latest section-wrap" aria-labelledby="latest-heading">
+    <div class="section-heading"><span class="kicker">01 / FRONT PAGE</span><h2 id="latest-heading">LATEST ISSUE</h2></div>
+    {latest ? (
+      <a class="latest-card" href={`${base}issues/${latest.id}/`}>
+        <div class="issue-number">ISSUE<br /><strong>#{String(latest.data.edition).padStart(2, '0')}</strong></div>
+        <div><span class="eyebrow">{latest.data.date} · {latest.data.stories.length} STORIES</span><h3>{latest.data.title}</h3><p>{latest.data.dek}</p><span class="read-link">OPEN THE ISSUE ↗</span></div>
+      </a>
+    ) : (
+      <div class="coming-soon"><span class="tape">ON THE PRESS</span><h3>The first issue is being edited.</h3><p>The inaugural edition will work through the full reading backlog. The archive opens after its sources and publication checks are complete.</p></div>
+    )}
+  </section>
+
+  {issues.length > 1 && <section class="archive section-wrap" aria-labelledby="archive-heading">
+    <div class="section-heading"><span class="kicker">02 / BACK ISSUES</span><h2 id="archive-heading">THE ARCHIVE</h2></div>
+    <ol class="archive-list">{issues.slice(1).map((issue) => <li><a href={`${base}issues/${issue.id}/`}><span>#{String(issue.data.edition).padStart(2, '0')}</span><strong>{issue.data.title}</strong><time datetime={issue.data.date}>{issue.data.date}</time><span aria-hidden="true">↗</span></a></li>)}</ol>
+  </section>}
+</Site>

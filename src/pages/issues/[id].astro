@@ -1,0 +1,104 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ScribbleIcon from '../../components/ScribbleIcon.astro';
+import StoryImage from '../../components/StoryImage.astro';
+import { originalLanguageBadge } from '../../lib/story-language.mjs';
+import { loadInstance } from '../../../config/instance.mjs';
+
+export async function getStaticPaths() {
+  const issues = await getCollection('issues');
+  return issues.map((issue) => ({ params: { id: issue.id }, props: { issue } }));
+}
+
+interface Props { issue: CollectionEntry<'issues'> }
+const { issue } = Astro.props;
+const { data } = issue;
+const instance = loadInstance();
+const base = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}`;
+const issueCover = instance.covers?.[data.edition];
+const sectionNames = { reads: 'THE READING ROOM', signals: 'SIGNAL DESK', releases: 'NEW RELEASES', offers: 'OFFERS WITH A POINT', noise: 'THE NOISE FLOOR' };
+const sectionDescriptions = {
+  reads: 'Articles and essays unpacked: the key facts, arguments, and takeaways.',
+  signals: 'Specific changes and announcements explained in a few lines: what happened and why it matters.',
+  releases: 'New tools and culture worth exploring, from software to films and games.',
+  offers: 'Public offers and courses assessed for their value and terms.',
+  noise: 'Hype and repeated low-value claims when the pattern itself matters.'
+};
+const sectionNavHints = { reads: 'ARTICLE TAKEAWAYS', signals: 'CHANGES TO WATCH', releases: 'OUT NOW', offers: 'PUBLIC OFFERS', noise: 'HYPE PATTERNS' };
+const sectionOrder = ['reads', 'signals', 'releases', 'offers', 'noise'] as const;
+const storiesById = new Map(data.stories.map((story) => [story.id, story]));
+const readingBeats = [
+  { id: 'engineering', title: 'THE ENGINE ROOM' },
+  { id: 'economics', title: 'THE MONEY PIT' },
+  { id: 'accountability', title: 'THE CONTROL ROOM' },
+  { id: 'frontier', title: 'THE LAB BENCH' },
+  { id: 'culture', title: 'THE HUMAN SIDE' }
+] as const;
+---
+
+<Site title={data.title} description={data.dek}>
+  <article class="issue-shell">
+    <header class="issue-hero">
+      <div class="issue-meta"><span>ISSUE #{String(data.edition).padStart(2, '0')}</span><time datetime={data.date}>{data.date}</time><span>{data.stories.length} STORIES</span></div>
+      <h1>{data.title}</h1><p class="issue-dek">{data.dek}</p>
+      {issueCover && <figure class="issue-cover"><img src={`${base}${issueCover.src}`} alt={issueCover.alt} /></figure>}
+      <p class="editor-note"><strong>EDITOR'S NOTE /</strong> {data.editorNote}</p>
+    </header>
+
+    <div class="issue-content">
+      <nav class="issue-toc" aria-label="Issue sections"><strong>IN THIS ISSUE</strong><ol>
+        <li><a class="toc-entry" href="#frontline"><ScribbleIcon name="frontline" /><span>The front line<small>THE BIG TAKEAWAYS</small></span></a></li>
+        {sectionOrder.filter((section) => data.stories.some((story) => story.section === section)).map((section) => <li><a class="toc-entry" href={`#${section}`}><ScribbleIcon name={section} /><span>{sectionNames[section]}<small>{sectionNavHints[section]}</small></span></a></li>)}
+      </ol><a class="back-home" href={base}>← ALL ISSUES</a></nav>
+
+      <div class="issue-body">
+        <section id="frontline" class="frontline"><div class="section-heading"><span class="kicker">THE MOST RELEVANT TOPICS</span><h2>THE FRONT LINE</h2></div>
+          <ol class="lead-list">{data.leadTopics.map((topic, index) => <li id={`topic-${topic.id}`}>
+            <span class="lead-index">0{index + 1}</span>
+            <div class={`lead-layout${topic.image ? ' has-art' : ''}`}>
+              <div class="lead-heading">
+                <h3>{topic.title}</h3>
+                <p class="lead-claim">{topic.claim}</p>
+              </div>
+              {topic.image && <StoryImage image={topic.image} base={base} className="lead-art" />}
+              <div class="lead-details">
+                <div class="lead-takeaway"><strong>THE TAKEAWAY /</strong><p>{topic.takeaway}</p></div>
+                <p><strong>WHY IT MATTERS /</strong> {topic.whyItMatters}</p>
+                <p><strong>STILL UNCLEAR /</strong> {topic.uncertainty}</p>
+                <ul class="lead-sources">{topic.storyIds.map((storyId) => <li><a href={`#story-${storyId}`}>{storiesById.get(storyId)?.headline}</a></li>)}</ul>
+              </div>
+            </div>
+          </li>)}</ol>
+        </section>
+
+        {sectionOrder.map((section) => {
+          const stories = data.stories.filter((story) => story.section === section);
+          if (!stories.length) return null;
+          const features = stories.filter((story) => story.treatment !== 'brief');
+          const briefs = stories.filter((story) => story.treatment === 'brief');
+          const briefGroups = section === 'reads'
+            ? [
+                ...readingBeats.map((beat) => ({ ...beat, stories: briefs.filter((story) => story.beat === beat.id) })),
+                { id: 'other', title: 'MORE READS', stories: briefs.filter((story) => !story.beat) }
+              ].filter((group) => group.stories.length)
+            : [{ id: section, title: 'QUICK TAKES', stories: briefs }];
+          return <section id={section} data-section={section} class="story-section"><div class="section-heading"><span class="kicker">{String(stories.length).padStart(2, '0')} ITEMS</span><h2>{sectionNames[section]}</h2></div><p class="section-intro">{sectionDescriptions[section]}</p>
+            {section === 'reads' && briefGroups.length > 1 && <nav class="beat-nav" aria-label="Reading room topics"><span>JUMP INTO THE PILE /</span>{briefGroups.map((group) => <a href={`#beat-${group.id}`}>{group.title} <b>{group.stories.length}</b></a>)}</nav>}
+            {features.length > 0 && <div class="stories">{features.map((story) => <article id={`story-${story.id}`} class="story-card" lang={story.sourceLanguage}>
+              <div class="story-header"><div class="story-tags"><span class="story-type" lang="en">{section.toUpperCase()}</span>{section === 'reads' && originalLanguageBadge(story.sourceLanguage) && <span class="language-badge" lang="en">{originalLanguageBadge(story.sourceLanguage)}</span>}</div><span class="story-source">{story.sourceName}</span></div>
+              <h3>{story.headline}</h3>
+              {story.image && <StoryImage image={story.image} base={base} sourceUrl={story.sourceUrl} className="story-image" />}
+              <ul class="takeaways">{story.takeaways.map((takeaway) => <li>{takeaway}</li>)}</ul>
+              <p class="why"><strong lang="en">WHY IT MATTERS /</strong> {story.whyItMatters}</p>
+              {story.excerpt && <blockquote>{story.excerpt}</blockquote>}
+              <div class="source-row" lang="en">{story.sourceUrl ? <a href={story.sourceUrl} target="_blank" rel="noopener noreferrer">READ THE SOURCE ↗</a> : <span>EMAIL EDITION / {story.emailReference}</span>}</div>
+              {story.relatedLinks?.length && <div class="related-links"><span>DEEPER SOURCES /</span>{story.relatedLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}
+            </article>)}</div>}
+            {briefGroups.map((group, groupIndex) => group.stories.length > 0 && <div class={`briefs${section === 'reads' ? ' reading-beat' : ''}`} id={`beat-${group.id}`}><h3 class="briefs-heading">{section === 'reads' ? <><span class="beat-kicker">READING ROOM / {String(groupIndex + 1).padStart(2, '0')}</span><span class="beat-title">{group.title}</span><span class="beat-count">{String(group.stories.length).padStart(2, '0')}<small>READS</small></span></> : `${group.title} / ${group.stories.length}`}</h3><ol class={`brief-list ${section === 'releases' ? 'release-grid' : ''}`}>{group.stories.map((story) => <li><article id={`story-${story.id}`} class="brief-row" lang={story.sourceLanguage}>{section === 'releases' && story.image && <StoryImage image={story.image} base={base} sourceUrl={story.sourceUrl} className="brief-image" />}<div class="brief-meta"><span>{story.sourceName}</span><span class={section === 'reads' && originalLanguageBadge(story.sourceLanguage) ? 'language-badge' : undefined} lang="en">{section === 'reads' && originalLanguageBadge(story.sourceLanguage) || section.toUpperCase()}</span></div>{section !== 'releases' && story.image && <StoryImage image={story.image} base={base} sourceUrl={story.sourceUrl} className="brief-image" />}<h4>{story.headline}</h4><ul class="takeaways">{story.takeaways.map((takeaway) => <li>{takeaway}</li>)}</ul><p><strong lang="en">WHY IT MATTERS /</strong> {story.whyItMatters}</p>{story.sourceUrl ? <a class="brief-source" href={story.sourceUrl} target="_blank" rel="noopener noreferrer" lang="en">READ THE SOURCE ↗</a> : <span class="brief-source" lang="en">EMAIL EDITION / {story.emailReference}</span>}{story.relatedLinks?.length && <div class="related-links" lang="en"><span>DEEPER SOURCES /</span>{story.relatedLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}</article></li>)}</ol></div>)}
+          </section>;
+        })}
+      </div>
+    </div>
+  </article>
+</Site>
