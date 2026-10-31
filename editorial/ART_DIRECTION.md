@@ -1,6 +1,6 @@
 # Art direction for every issue
 
-Read `DESIGN_SYSTEM.md` and `DESIGN_SYSTEM.json` before making or selecting images. The found-record-sleeve identity applies to the site, issue covers, original illustrations, contents icons, and all future assets. Keep worn ink, print texture, and spare article-specific compositions. Use the named companion palettes for color variety; cyan and the black left spine do not need to appear in every image. Never copy the reference's cat, cigarette, Japanese lettering, or exact arrangement.
+Read `DESIGN_SYSTEM.md` and `DESIGN_SYSTEM.json` before making or selecting images. The found-record-sleeve identity applies to the site, issue covers, original illustrations, contents icons, and all future assets. Keep worn ink, print texture, and spare article-specific compositions. Use the named companion palettes for color variety; cyan and the black left spine do not need to appear in every image. Let each story determine its own subject and layout.
 
 Use original art for a lead topic or story when its scene, object, or diagram makes the underlying idea clearer. Avoid generic robots, stock visual metaphors, repeated branded frames, and visuals that imply an unsupported source claim. `scripts/render-original-art.mjs` reads the design system, uses each image's `motif` and `label` for the asset and accessible title, and adds no visible "original art" badge. Extend the motif library when an existing subject does not fit.
 

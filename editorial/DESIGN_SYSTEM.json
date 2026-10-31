@@ -18,7 +18,7 @@
   "art": {
     "mood": "Wry, nocturnal, a little decadent, and knowingly imperfect.",
     "medium": "Worn ink on colored paper, distressed print, loose hand-drawn marks, generous negative space.",
-    "avoid": ["generic robots", "plastic gradients", "comic-style explosions", "decorative Japanese text", "repeated site badges", "unnecessary original-art labels"],
+    "avoid": ["generic robots", "plastic gradients", "comic-style explosions", "unrelated decorative lettering", "repeated site badges", "unnecessary original-art labels"],
     "templates": ["full-bleed", "split-paper", "cutout-field", "night-window"],
     "paletteSets": {
       "cyan-ink": { "background": "#4aa9bd", "light": "#eee6d2", "mid": "#b2a15a", "accent": "#793e46", "dark": "#25291f" },

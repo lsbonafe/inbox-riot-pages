@@ -1,6 +1,6 @@
 # Zine design system
 
-The zine should feel like a found underground record sleeve: electric cyan paper, nearly black ink, faded ochre, warm cream, occasional oxblood, visible print wear, a torn edge, and an elegant italic serif headline. Its attitude is wry, tired, curious, and a little decadent. Use the reference as a visual grammar, not as an image to copy: no borrowed cat, cigarette, Japanese lettering, or fake foreign-language packaging.
+The zine should feel like a found underground record sleeve: electric cyan paper, nearly black ink, faded ochre, warm cream, occasional oxblood, visible print wear, a torn edge, and an elegant italic serif headline. Its attitude is wry, tired, curious, and a little decadent. Use the reference for its texture, color relationships, typography, and mood. Choose original subjects and compositions that serve each story.
 
 `DESIGN_SYSTEM.json` is the source of palette and type tokens. `npm run design:render` turns those tokens into site CSS and the favicon; `npm run art:render` reads the same palette for generated illustrations. Every manual or AI-created image brief must read this file and `ART_DIRECTION.md` before artwork is made. Composition, mood, and constraints in this document apply to the landing page, every issue, new illustrations, icons, and future generated assets.
 
