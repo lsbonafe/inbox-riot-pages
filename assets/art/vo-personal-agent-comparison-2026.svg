@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc" data-template="split-paper" data-palette="lilac">
+<title id="title">NINE JOBS</title><desc id="desc">Four agent windows show different tools and handoff paths on lilac paper.</desc>
+<defs><pattern id="print" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="1.1" fill="#25291f" opacity=".2"/><circle cx="14" cy="13" r=".8" fill="#f1e5cf" opacity=".5"/></pattern></defs>
+<rect width="720" height="460" fill="#a394ad"/><path d="M0 0h338l28 460H0Z" fill="#f1e5cf"/><path d="M336 0 364 460" fill="none" stroke="#25291f" stroke-width="3" stroke-dasharray="18 9" opacity=".55"/><circle cx="115" cy="96" r="47" fill="#d8b77e"/><g transform="translate(252 68) rotate(6 200 150)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><path d="M22 40h240v167h-72l-42 43v-43H22Z" fill="#f1e5cf"/><path d="M165 109h225v167h-75l-41 38v-38H165Z" fill="#d8b77e"/><path d="M64 95h151m-151 51h109m43 28h132m-132 47h79" fill="none"/><circle cx="239" cy="69" r="15" fill="#744f63"/></g><path d="M44 324h220m-220 20h146m-146 20h196" fill="none" stroke="#744f63" stroke-width="9"/>
+<rect width="720" height="460" fill="url(#print)"/>
+</svg>
