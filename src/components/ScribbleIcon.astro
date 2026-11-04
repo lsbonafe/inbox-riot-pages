@@ -1,8 +1,9 @@
 ---
-interface Props { name: 'frontline' | 'reads' | 'signals' | 'releases' | 'offers' | 'noise' }
+interface Props { name: 'frontline' | 'field-notes' | 'reads' | 'signals' | 'releases' | 'offers' | 'noise' }
 const { name } = Astro.props;
 const strokes = {
   frontline: ['m23 2-9 18 8 2-3 20 13-19-7-2 8-19Z', 'm6 8 4 5m30 21 4 5'],
+  'field-notes': ['M8 5h29v33H8Z', 'M13 14h18m-18 7h14m-14 7h10m-7-24 4-3'],
   reads: ['M4 9q9-5 18 1v30Q13 34 4 38Zm18 1q9-6 18-1v29q-9-4-18 2Z', 'M8 16q5-2 10 1m8 0q5-3 10-1M8 23q5-2 10 1m8 0q5-3 10-1'],
   signals: ['M5 34q6-7 12 0m-6-12q13-12 24 0m-15-11q11-5 20 4', 'm19 31 5-7 5 7-5 8Z'],
   releases: ['M5 14h34v25H5Zm0-8h34l-4 8H5Z', 'm13 6 5 8m6-8 5 8M12 25h20m-20 7h12'],

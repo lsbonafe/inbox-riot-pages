@@ -1,5 +1,5 @@
 {
-  "name": "Worn Record Sleeve",
+  "name": "Xerox Wall",
   "palette": {
     "ink": "#25291f",
     "paper": "#eee6d2",
@@ -16,8 +16,23 @@
     "hand": "Caveat, cursive"
   },
   "art": {
-    "mood": "Wry, nocturnal, a little decadent, and knowingly imperfect.",
-    "medium": "Worn ink on colored paper, distressed print, loose hand-drawn marks, generous negative space.",
+    "mood": "Curious, wry, a little decadent, personal, and knowingly imperfect.",
+    "medium": "Layered photocopied paper, worn ink, scribbled marks, rough cutouts, halftone, and purposeful breathing room.",
+    "houseStyle": {
+      "name": "Clumsy scribbly punk collage",
+      "subject": "One story-specific object or scene, with a clear visual claim rather than a generic technology symbol.",
+      "composition": "Asymmetrical hand-drawn or cut-paper composition with foreground, middle, and background layers; vary crop, scale, and focal position between neighboring images. Reserve a textured title zone on covers without leaving a broad empty color field.",
+      "surface": "Scratchy uneven ink, loose marks, halftone, rough paper, slight print misregistration, overlapping folds and paper shadows, and hand-cut edges; keep texture out of reading text.",
+      "color": "Select a named companion palette per issue; use its dark ink and light paper as anchors, and vary accent intensity by scene.",
+      "avoid": "Polished photorealistic gloss, generic robots, repeated subject silhouettes, uniform border frames, large unused color fields, in-image text, and stock-art symmetry."
+    },
+    "fieldNoteSticker": {
+      "selection": "One strongest Field Note per issue; all other notes stay unstickered.",
+      "subject": "A concrete object or event from the featured note, not a generic personal-life symbol.",
+      "medium": "Transparent die-cut collage of torn paper, scratchy ink, photocopy grain, halftone, and a few crooked marker or tape marks.",
+      "color": "Anchor in the issue palette; use one companion accent where it helps the subject.",
+      "avoid": "Clean vector icon, rectangular background, stock badge, reused sticker, tiny illegible detail, or in-image text."
+    },
     "avoid": ["generic robots", "plastic gradients", "comic-style explosions", "unrelated decorative lettering", "repeated site badges", "unnecessary original-art labels"],
     "templates": ["full-bleed", "split-paper", "cutout-field", "night-window"],
     "paletteSets": {

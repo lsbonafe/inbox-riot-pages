@@ -1,6 +1,7 @@
-import { access, readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const issueDirectory = process.env.INBOX_RIOT_ISSUES_DIR ?? fileURLToPath(new URL('../src/data/issues/', import.meta.url));
 const publicDirectory = fileURLToPath(new URL('../public/', import.meta.url));
@@ -12,6 +13,7 @@ const privateText = [
   /\b(?:password|passcode|api[_ -]?key|secret|cvv|one[- ]time code)\s*[:=]\s*\S+/i,
   /\b(?:ghp_|github_pat_|sk-)[A-Za-z0-9_-]{12,}\b/,
   /\b[0-9a-f]{16}\b/i,
+  /\b(?:account|contract|customer|reservation|invoice|transaction|meter|PDL)\s*(?:number|no\.?|#|:)?\s*:?\s*\d{5,}\b/i,
   /\bFR\d{2}(?:\s?\d{4}){5}\s?\d{3}\b/i
 ];
 
@@ -69,6 +71,27 @@ function validateImage(image, id, edition, errors) {
 export function validateIssue(issue) {
   const errors = [];
   if (!Array.isArray(issue.stories) || issue.stories.length === 0) return ['Issue has no stories'];
+  if (issue.schemaVersion === 2) {
+    if (!issue.cover) errors.push('Version 2 issue needs an original cover');
+    if (issue.cover?.kind !== 'original') errors.push('Version 2 cover must be original');
+    if (!Object.hasOwn(art.paletteSets, issue.artPalette ?? '')) errors.push('Version 2 issue needs a named art palette');
+    if (issue.revisedAt && issue.revisedAt < issue.date) errors.push('Revision date cannot precede publication date');
+  }
+  validateImage(issue.cover, `cover-${issue.edition}`, issue.edition, errors);
+  const noteIds = new Set();
+  if ((issue.fieldNotes ?? []).filter((note) => note.sticker).length > 1) errors.push('Field Notes allow only one featured sticker per issue');
+  for (const note of issue.fieldNotes ?? []) {
+    if (!/^[a-z0-9-]+$/.test(note.id ?? '') || noteIds.has(note.id)) errors.push('Field note needs a unique public id');
+    noteIds.add(note.id);
+    if (!note.title?.trim() || !note.event?.trim() || !note.angle?.trim() || !note.sourceReference?.trim()) errors.push(`Field note needs a specific event, wider angle, and reference: ${note.id}`);
+    if (note.sticker && note.sticker.kind !== 'original') errors.push(`Field note sticker must be original: ${note.id}`);
+    validateImage(note.sticker, `field-note-${note.id}`, issue.edition, errors);
+    if (note.contextLinks !== undefined && !Array.isArray(note.contextLinks)) errors.push(`Field note context links must be a list: ${note.id}`);
+    for (const link of Array.isArray(note.contextLinks) ? note.contextLinks : []) {
+      if (!link?.label?.trim()) errors.push(`Field note context link needs a label: ${note.id}`);
+      canonicalUrl(link?.url, note.id, 'field note context', errors);
+    }
+  }
   const ids = new Set();
   const urls = new Set();
   for (const story of issue.stories) {
@@ -77,7 +100,7 @@ export function validateIssue(issue) {
     ids.add(story.id);
     if (story.treatment && !['feature', 'brief'].includes(story.treatment)) errors.push(`Invalid story treatment: ${story.id}`);
     if (story.beat && !['engineering', 'economics', 'accountability', 'frontier', 'culture'].includes(story.beat)) errors.push(`Invalid story beat: ${story.id}`);
-    if (story.section === 'reads' && !/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(story.sourceLanguage ?? '')) errors.push(`Read needs a valid original-language tag: ${story.id}`);
+    if (story.section === 'reads' && !/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(story.sourceLanguage ?? '')) errors.push(`Read needs a valid source-language tag: ${story.id}`);
     if (!story.takeaways?.length) errors.push(`No takeaways: ${story.id}`);
     if (Boolean(story.sourceUrl) === Boolean(story.emailReference)) errors.push(`Exactly one source required: ${story.id}`);
     const storyUrls = new Set();
@@ -98,6 +121,7 @@ export function validateIssue(issue) {
     }
     validateImage(story.image, story.id, issue.edition, errors);
     if (story.image?.kind === 'source' && !story.sourceUrl) errors.push(`Source image needs a public story source: ${story.id}`);
+    if (issue.schemaVersion === 2 && story.section !== 'releases' && story.image?.kind === 'source') errors.push(`Version 2 article art must be original: ${story.id}`);
   }
   if (!Array.isArray(issue.leadTopics) || issue.leadTopics.length < 1 || issue.leadTopics.length > 5) errors.push('Need 1–5 lead topics');
   const topicIds = new Set();
@@ -120,11 +144,13 @@ export function validateIssue(issue) {
     if (new Set(generatedArt.map((entry) => entry.image.artStyle?.template)).size < 2) errors.push('Issue art needs at least two templates');
     if (new Set(generatedArt.map((entry) => entry.image.artStyle?.palette)).size < 2) errors.push('Issue art needs at least two palettes');
   }
-  if (originalCount(leads) < Math.ceil(leads.length * .75)) errors.push('Most lead topics need original art');
+  if (issue.schemaVersion === 2) {
+    if (leads.some((topic) => topic.image?.kind !== 'original')) errors.push('Version 2 lead topics need original art');
+  } else if (originalCount(leads) < Math.ceil(leads.length * .75)) errors.push('Most lead topics need original art');
   const reads = issue.stories.filter((story) => story.section === 'reads');
-  if (reads.length && originalCount(reads) < Math.min(8, Math.ceil(reads.length / 20))) errors.push('Reading Room needs article-specific original art');
+  if (issue.schemaVersion !== 2 && reads.length && originalCount(reads) < Math.min(8, Math.ceil(reads.length / 20))) errors.push('Reading Room needs article-specific original art');
   const signals = issue.stories.filter((story) => story.section === 'signals');
-  if (signals.length && originalCount(signals) < Math.ceil(signals.length / 2)) errors.push('Signal Desk needs original art');
+  if (issue.schemaVersion !== 2 && signals.length && originalCount(signals) < Math.ceil(signals.length / 2)) errors.push('Signal Desk needs original art');
   for (const story of issue.stories.filter((entry) => entry.section === 'releases')) if (!story.image) errors.push(`Release needs an image: ${story.id}`);
   const text = JSON.stringify(issue);
   if (privateText.some((pattern) => pattern.test(text)) || hasCardNumber(text)) errors.push('Issue contains possible private data');
@@ -145,6 +171,7 @@ export async function validateDirectory(directory = issueDirectory, artifactDire
   const errors = [];
   const files = (await listFiles(directory)).filter((file) => file.endsWith('.json'));
   const publishedSources = new Map();
+  const publishedArtHashes = new Map();
   const publishedEditions = new Map();
   const publishedDates = new Map();
   for (const file of files) {
@@ -155,9 +182,15 @@ export async function validateDirectory(directory = issueDirectory, artifactDire
         if (map.has(value)) errors.push(`${relative(directory, file)}: ${label} already published in ${map.get(value)}`);
         else map.set(value, relative(directory, file));
       }
-      for (const entry of [...(issue.leadTopics ?? []), ...(issue.stories ?? [])]) {
-        if (entry.image?.kind !== 'original' || !/^assets\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp)$/i.test(entry.image.src ?? '')) continue;
-        try { await access(resolve(publicDirectory, entry.image.src)); }
+      for (const entry of [issue.cover, ...(issue.leadTopics ?? []), ...(issue.stories ?? []), ...(issue.fieldNotes ?? [])].filter(Boolean)) {
+        const image = entry.sticker ?? entry.image ?? entry;
+        if (image.kind !== 'original' || !/^assets\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp)$/i.test(image.src ?? '')) continue;
+        try {
+          const bytes = await readFile(resolve(publicDirectory, image.src));
+          const digest = createHash('sha256').update(bytes).digest('hex');
+          if (issue.schemaVersion === 2 && publishedArtHashes.has(digest)) errors.push(`${relative(directory, file)}: original image repeats ${publishedArtHashes.get(digest)}`);
+          publishedArtHashes.set(digest, `${relative(directory, file)}: ${entry.id ?? 'cover'}`);
+        }
         catch { errors.push(`${relative(directory, file)}: original image asset is missing: ${entry.id}`); }
       }
       for (const story of issue.stories ?? []) {

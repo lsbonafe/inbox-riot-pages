@@ -18,6 +18,48 @@ const clean = () => ({
 });
 
 test('a sourced issue passes', () => assert.deepEqual(validateIssue(clean()), []));
+test('revised issues need an original issue cover and can include ordinary personal notes', () => {
+  const issue = clean();
+  issue.schemaVersion = 2;
+  issue.artPalette = 'slate';
+  issue.revisedAt = '2026-11-03';
+  issue.fieldNotes = [{ id: 'car-sharing', title: 'Getting around', event: 'The editor used a car-sharing service for a completed trip.', angle: 'A shared car was one part of the week’s transport mix.', sourceReference: 'Transport confirmation, October 2026', sticker: { ...originalImage, src: 'assets/car-sticker.svg' } }];
+  assert.match(validateIssue(issue).join(' '), /needs an original cover/);
+  issue.cover = { ...originalImage, src: 'assets/issue-cover.jpg' };
+  assert.deepEqual(validateIssue(issue), []);
+  issue.fieldNotes[0].sticker = undefined;
+  assert.deepEqual(validateIssue(issue), []);
+  issue.fieldNotes[0].sticker = { ...originalImage, src: 'assets/car-sticker.svg' };
+  issue.fieldNotes.push({ id: 'electricity', title: 'A new supplier', event: 'The editor changed electricity supplier.', angle: 'The switch has a definite handoff date.', sourceReference: 'Subscription notice, October 2026', sticker: { ...originalImage, src: 'assets/power-sticker.svg' } });
+  assert.match(validateIssue(issue).join(' '), /only one featured sticker/);
+  issue.fieldNotes[1].sticker = undefined;
+  assert.deepEqual(validateIssue(issue), []);
+  issue.fieldNotes[0].event = 'Contract number: 12345678';
+  assert.match(validateIssue(issue).join(' '), /private data/);
+});
+test('field notes need a real event and reject tracked public context links', () => {
+  const issue = clean();
+  issue.fieldNotes = [{ id: 'energy', title: 'An energy choice', event: '', angle: 'A wider price story.', sourceReference: 'Subscription notice, October 2026', contextLinks: [{ label: 'Prices', url: 'https://example.org/prices?utm_source=mail' }] }];
+  const errors = validateIssue(issue).join(' ');
+  assert.match(errors, /specific event, wider angle/);
+  assert.match(errors, /Tracking or private URL parameter/);
+  issue.fieldNotes[0].contextLinks = { label: 'Prices', url: 'https://example.org/prices' };
+  assert.match(validateIssue(issue).join(' '), /context links must be a list/);
+});
+test('revised issues require lead art but do not force filler images onto every section', () => {
+  const issue = clean();
+  issue.schemaVersion = 2;
+  issue.artPalette = 'cyan-ink';
+  issue.cover = { ...originalImage, src: 'assets/issue-cover.jpg' };
+  issue.stories[0].image = undefined;
+  issue.stories.push({ id: 'signal', section: 'signals', headline: 'A specific update', sourceName: 'Publisher', sourceUrl: 'https://example.org/update', takeaways: ['A concrete change.'], whyItMatters: 'Readers may use it.' });
+  assert.deepEqual(validateIssue(issue), []);
+  issue.leadTopics[0].image = undefined;
+  assert.match(validateIssue(issue).join(' '), /lead topics need original art/);
+  issue.leadTopics[0].image = originalImage;
+  issue.stories[0].image = { kind: 'source', src: 'https://example.org/picture.jpg', alt: 'Photo', credit: 'Publisher', rights: 'Source artwork' };
+  assert.match(validateIssue(issue).join(' '), /article art must be original/);
+});
 test('primary research can be linked alongside the original article', () => {
   const issue = clean(); issue.stories[0].relatedLinks = [{ label: 'Underlying study', url: 'https://example.org/study' }];
   assert.deepEqual(validateIssue(issue), []);
@@ -41,11 +83,11 @@ test('unknown reading beats are rejected', () => {
   const issue = clean(); issue.stories[0].beat = 'misc';
   assert.match(validateIssue(issue).join(' '), /Invalid story beat/);
 });
-test('every Read needs an original-language tag', () => {
+test('every Read records the source language even when its editorial copy is translated', () => {
   const issue = clean(); delete issue.stories[0].sourceLanguage;
-  assert.match(validateIssue(issue).join(' '), /original-language tag/);
+  assert.match(validateIssue(issue).join(' '), /source-language tag/);
   issue.stories[0].sourceLanguage = 'english';
-  assert.match(validateIssue(issue).join(' '), /original-language tag/);
+  assert.match(validateIssue(issue).join(' '), /source-language tag/);
   issue.stories[0].sourceLanguage = 'pt-BR';
   assert.deepEqual(validateIssue(issue), []);
 });
@@ -74,7 +116,7 @@ test('releases need images and source images cannot use tracked URLs', () => {
   issue.stories[1].image.src = 'https://example.org/poster.jpg';
   assert.deepEqual(validateIssue(issue), []);
 });
-test('reading and signal art quotas apply to every issue', () => {
+test('legacy issues keep their original reading and signal art quotas', () => {
   const issue = clean(); issue.stories[0].image = undefined;
   issue.stories.push({ id: 'signal', section: 'signals', headline: 'A new feature', sourceName: 'Publisher', sourceUrl: 'https://example.org/feature', takeaways: ['It is available.'], whyItMatters: 'Readers may use it.' });
   const errors = validateIssue(issue).join(' ');

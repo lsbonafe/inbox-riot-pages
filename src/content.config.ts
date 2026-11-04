@@ -39,9 +39,22 @@ const story = z.object({
 const issues = defineCollection({
   loader: glob({ base: process.env.INBOX_RIOT_ISSUES_DIR ?? './src/data/issues', pattern: '*.json' }),
   schema: z.object({
+    schemaVersion: z.literal(2).optional(),
+    artPalette: z.enum(['cyan-ink', 'copper', 'lilac', 'olive', 'slate']).optional(),
     title: z.string().min(1),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    revisedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     edition: z.number().int().positive(),
+    cover: image.optional(),
+    fieldNotes: z.array(z.object({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      title: z.string().min(1),
+      event: z.string().min(1),
+      angle: z.string().min(1),
+      sourceReference: z.string().min(1),
+      sticker: image.optional(),
+      contextLinks: z.array(z.object({ label: z.string().min(1), url: z.string().url() })).optional()
+    })).optional(),
     dek: z.string().min(1),
     editorNote: z.string().min(1),
     leadTopics: z.array(z.object({
