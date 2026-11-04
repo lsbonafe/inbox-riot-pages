@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc" data-template="full-bleed" data-palette="olive">
-<title id="title">WALK SLOWLY</title><desc id="desc">A clocklike dial and a quiet path suggest changing pace away from a screen.</desc>
-<defs><pattern id="print" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="1.1" fill="#25291f" opacity=".2"/><circle cx="14" cy="13" r=".8" fill="#f4e8cf" opacity=".5"/></pattern></defs>
-<rect width="720" height="460" fill="#afb679"/><circle cx="602" cy="56" r="255" fill="#d2ae63" opacity=".8"/><path d="M0 383q310-108 720 17v60H0Z" fill="#f4e8cf" opacity=".82"/><g transform="translate(136 36) scale(1.12)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><circle cx="197" cy="159" r="121" fill="#f4e8cf"/><circle cx="197" cy="159" r="72" fill="#d2ae63"/><path d="M197 159 247 81" stroke="#8d4b4d" stroke-width="18"/><path d="M197 12v30M93 54l21 20M48 159h29m16 106 21-20m187 20-21-20m65-86h28M301 54l-21 20" fill="none"/><path d="M37 304h325" stroke-dasharray="22 12"/></g><path d="m24 36 87 21m-73 21 62 14m526 279 67 24" fill="none" stroke="#8d4b4d" stroke-width="7"/>
-<rect width="720" height="460" fill="url(#print)"/>
-</svg>

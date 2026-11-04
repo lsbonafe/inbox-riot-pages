@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="title desc" data-template="cutout-field" data-palette="copper">
-<title id="title">THE PUBLIC RECORD</title><desc id="desc">A typewriter and a stack of public documents sit on a worn copper sheet.</desc>
-<defs><pattern id="print" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="1.1" fill="#25291f" opacity=".2"/><circle cx="14" cy="13" r=".8" fill="#f0dfbd" opacity=".5"/></pattern></defs>
-<rect width="720" height="460" fill="#c27b58"/><path d="M78 35 587 8l100 378-556 60Z" fill="#f0dfbd"/><path d="m114 51 398-28 124 363-424 40Z" fill="#d7ad73" opacity=".35"/><g transform="translate(167 76) rotate(-9 200 150)" stroke="#25291f" stroke-width="8" stroke-linejoin="bevel" stroke-linecap="square"><path d="M93 5h212v129H93Z" fill="#f0dfbd"/><path d="M118 46h162m-162 31h126m-126 31h146" fill="none"/><path d="M60 132h280l43 165H17Z" fill="#496f79"/><path d="M53 183h291m-263 51h240" fill="none"/><g fill="#f0dfbd"><circle cx="92" cy="208" r="12"/><circle cx="139" cy="208" r="12"/><circle cx="186" cy="208" r="12"/><circle cx="233" cy="208" r="12"/><circle cx="280" cy="208" r="12"/></g></g><path d="m37 102 61-24m-42 51 72-29m487 309 69-24" fill="none" stroke="#496f79" stroke-width="8"/>
-<rect width="720" height="460" fill="url(#print)"/>
-</svg>
