@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "usage": "Inspect and attach these as style references. Transfer medium and compositional principles; create a new subject, arrangement and palette from the current album.",
+  "references": [
+    {
+      "id": "small-changes",
+      "image": "small-changes.png",
+      "sha256": "1322dcb664163d22476f7a4655ef033e52a4a909d5cce74288ddd9640237c1ca",
+      "notes": {
+        "medium": "Cut photographic objects, worn printed colour, torn paper and visible grain.",
+        "composition": "An oversized lamp and coat become a single landscape, with a tiny car; generous upper colour field leaves room for the HTML title.",
+        "palette": "Vermilion, cobalt, warm yellow and faded mint.",
+        "editorialConnection": "Ordinary-life stories are linked through an impossible physical scene. Carry the way objects relate, not these particular objects."
+      }
+    },
+    {
+      "id": "no-quiet-exit",
+      "image": "no-quiet-exit.png",
+      "sha256": "3e9d70bd2764949cc24ddbc76e1903e0fbaa76b3318bbf0d9b6205b2dcfc72a3",
+      "notes": {
+        "medium": "Coarse photographic halftone, rough cream paper, thread and a red paper fragment.",
+        "composition": "A cropped face and broken lock connect to a paper-covered eye through red threads. The offset arrangement and dark upper space establish tension.",
+        "palette": "Deep aubergine, cream, charcoal and a restrained red accent.",
+        "editorialConnection": "Accountability, recovery and evidence become one visual metaphor. This darker mood belongs to those subjects, not every edition."
+      }
+    },
+    {
+      "id": "night-school",
+      "image": "night-school.png",
+      "sha256": "166f3d6e5a0ac64ca8c14e036caf0b4c7829ee7af86c3b0aef7c33ab5b2c5784",
+      "notes": {
+        "medium": "Photographic cutouts, printed orange marks, torn paper and a textured colour field.",
+        "composition": "An open book becomes stairs, connecting a hand-held oscillator to a speaker. One continuous cable joins the parts while the upper area stays open.",
+        "palette": "Deep teal, warm paper, orange and small cobalt accents.",
+        "editorialConnection": "Reading and learning electronic sound are connected spatially. Use this approach to a shared question while inventing new subjects and arrangements."
+      }
+    }
+  ]
+}
